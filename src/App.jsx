@@ -4,13 +4,25 @@ import { useState } from 'react'
 function App() {
 
   const [inputdata, setInputdata] = useState("")
+  const [datastore, setdatastore] = useState([])
 
   const handleInputdata = (value) => {
     setInputdata(value)
   }
-  const handleformsubmit =()=>{
-    
+  const handleformsubmit = (event) => {
+    event.preventDefault()
+
+    if (!inputdata) return
+
+    if (datastore.includes(inputdata)) {
+      setInputdata("")
+      return
+    }
+
+    setdatastore((prev) => [...prev, inputdata])
+    setInputdata("")
   }
+
   return (
     <>
       <section>
@@ -26,6 +38,17 @@ function App() {
               <button className='todo-button' type='Submit'>Add Data</button>
             </div>
           </form>
+        </section>
+        <section>
+          <ul>
+            {
+              datastore.map((curvalue, index) => (
+                <li key={index}>
+                  <span>{curvalue}</span>
+                </li>
+              ))
+            }
+          </ul>
         </section>
       </section>
     </>
